@@ -7,7 +7,7 @@ ENV GOPATH=/root/go
 RUN echo 'alias c="claude --dangerously-skip-permissions"' >> /root/.bashrc
 
 
-RUN apt-get update && apt-get install -y curl zip unzip wget python3 git python3-setuptools python3-pip maven jq build-essential file xxd gcc-mingw-w64-i686-win32 wine wine64 xvfb imagemagick gcc-mingw-w64-i686 mingw-w64-tools autoconf automake libtool make clang-tidy clang-format tmux screen gdb gdb-mingw-w64 gdb-mingw-w64-target nodejs npm xdotool openjdk-21-jdk maven iputils-ping netcat-openbsd postgresql-client ocaml ocaml-dune z3 cvc4 libgmp-dev pkg-config opam golang-go fluxbox tini nano
+RUN apt-get update && apt-get install -y curl zip unzip wget python3 git python3-setuptools python3-pip maven jq build-essential file xxd gcc-mingw-w64-i686-win32 wine wine64 xvfb imagemagick gcc-mingw-w64-i686 mingw-w64-tools autoconf automake libtool make clang-tidy clang-format tmux screen gdb gdb-mingw-w64 gdb-mingw-w64-target nodejs npm xdotool openjdk-21-jdk maven iputils-ping netcat-openbsd postgresql-client ocaml ocaml-dune z3 cvc4 libgmp-dev pkg-config opam golang-go fluxbox tini nano cmake ninja-build
 
 RUN git config --global --add safe.directory *
 
@@ -29,6 +29,22 @@ RUN git clone --depth 1 --branch ${FLUTTER_VERSION} https://github.com/flutter/f
     && flutter config --no-analytics \
     && flutter config --enable-web \
     && flutter precache --web
+
+ENV OPAMROOT=/root/.opam
+ENV OPAMYES=1
+# Put the switch's bin ahead of /usr/bin so its dune (3.24.x) shadows apt's 3.20.2.
+ENV PATH="/root/.opam/sail/bin:${PATH}"
+
+# Download sail deps of the current master
+RUN opam init --bare --disable-sandboxing -y \
+ && opam switch create sail ocaml-system \
+ && eval $(opam env --switch=sail --set-switch) \
+ && git clone --depth 1 https://github.com/rems-project/sail.git /tmp/sail \
+ && opam install /tmp/sail --deps-only -y \
+ && rm -rf /tmp/sail \
+ && opam clean -a -c
+
+RUN echo 'eval $(opam env --switch=sail --set-switch)' >> /root/.bashrc
 
 # Install Claude
 RUN curl -fsSL https://claude.ai/install.sh | bash
