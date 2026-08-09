@@ -44,6 +44,12 @@ RUN opam init --bare --disable-sandboxing -y \
  && rm -rf /tmp/sail \
  && opam clean -a -c
 
+# Reference sail
+RUN opam switch create sail-release ocaml-system \
+ && opam install sail.0.20.2 --switch=sail-release -y \
+ && ln -s /root/.opam/sail-release/bin/sail /usr/local/bin/sail-0.20.2 \
+ && opam clean -a -c
+
 RUN echo 'eval $(opam env --switch=sail --set-switch)' >> /root/.bashrc
 
 # Install Claude
