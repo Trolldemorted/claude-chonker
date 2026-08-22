@@ -30,6 +30,46 @@ RUN git clone --depth 1 --branch ${FLUTTER_VERSION} https://github.com/flutter/f
     && flutter config --enable-web \
     && flutter precache --web
 
+# Wine deps
+apt-get install -y --no-install-recommends \
+    bison \
+    flex \
+    gcc-multilib \
+    g++-multilib \
+    g++-mingw-w64-i686-posix \
+    g++-mingw-w64-i686-win32
+dpkg --add-architecture i386
+apt-get install -y --no-install-recommends \
+    libx11-dev:i386 \
+    libxext-dev:i386 \
+    libfontconfig1-dev:i386 \
+    libfreetype-dev:i386 \
+    libxcursor-dev:i386 \
+    libxi-dev:i386 \
+    libxrender-dev:i386 \
+    libxrandr-dev:i386 \
+    libxfixes-dev:i386 \
+    libxinerama-dev:i386 \
+    libxxf86vm-dev:i386 \
+    libxcomposite-dev:i386 \
+    libxdamage-dev:i386 \
+    libxkbcommon-dev:i386 \
+    libpulse-dev:i386 \
+    libcups2-dev:i386 \
+    libgnutls28-dev:i386 \
+    libsdl2-dev:i386 \
+    libudev-dev:i386 \
+    libvulkan-dev:i386 \
+    libxml2-dev:i386 \
+    libxslt1-dev:i386 \
+    libgphoto2-dev:i386 \
+    libsane-dev:i386 \
+    libusb-1.0-0-dev:i386 \
+    libdbus-1-dev:i386 \
+    libgstreamer1.0-dev:i386 \
+    libgstreamer-plugins-base1.0-dev:i386 \
+    libosmesa6-dev:i386
+
 ENV OPAMROOT=/root/.opam
 ENV OPAMYES=1
 # Put the switch's bin ahead of /usr/bin so its dune (3.24.x) shadows apt's 3.20.2.
@@ -58,6 +98,8 @@ RUN curl -fsSL https://claude.ai/install.sh | bash
 # Install forgejo-cli
 #RUN wget https://codeberg.org/forgejo-contrib/forgejo-cli/releases/download/v0.5.0/forgejo-cli-x86_64-linux.tar.gz && tar -xf forgejo-cli-x86_64-linux.tar.gz && mv fj /usr/local/bin/ && rm forgejo-cli-x86_64-linux.tar.gz
 RUN curl https://benni.stronk.pw/benni/fj > /usr/local/bin/fj && chmod +x /usr/local/bin/fj
+
+RUN npm install -g @woodpecker.co/cli
 
 COPY --from=ghcr.io/trolldemorted/ghidra-headless-cli/ghidra-rpc:latest /ghidra-headless-cli /usr/local/bin/ghidra-headless-cli
 COPY --from=ghcr.io/trolldemorted/warren:latest /usr/local/bin/warren-cli /usr/local/bin/warren-cli
