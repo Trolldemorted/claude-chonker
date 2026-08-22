@@ -31,15 +31,15 @@ RUN git clone --depth 1 --branch ${FLUTTER_VERSION} https://github.com/flutter/f
     && flutter precache --web
 
 # Wine deps
-apt-get install -y --no-install-recommends \
+RUN apt-get install -y --no-install-recommends \
     bison \
     flex \
     gcc-multilib \
     g++-multilib \
     g++-mingw-w64-i686-posix \
     g++-mingw-w64-i686-win32
-dpkg --add-architecture i386
-apt-get install -y --no-install-recommends \
+RUN dpkg --add-architecture i386
+RUN apt-get install -y --no-install-recommends \
     libx11-dev:i386 \
     libxext-dev:i386 \
     libfontconfig1-dev:i386 \
