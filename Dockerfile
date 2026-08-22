@@ -7,7 +7,7 @@ ENV GOPATH=/root/go
 RUN echo 'alias c="claude --dangerously-skip-permissions"' >> /root/.bashrc
 
 
-RUN apt-get update && apt-get install -y curl zip unzip wget python3 git python3-setuptools python3-pip maven jq build-essential file xxd gcc-mingw-w64-i686-win32 wine wine64 xvfb imagemagick gcc-mingw-w64-i686 mingw-w64-tools autoconf automake libtool make clang-tidy clang-format tmux screen gdb gdb-mingw-w64 gdb-mingw-w64-target nodejs npm xdotool openjdk-21-jdk maven iputils-ping netcat-openbsd postgresql-client ocaml ocaml-dune z3 cvc4 libgmp-dev pkg-config opam golang-go fluxbox tini nano cmake ninja-build
+RUN apt-get update && apt-get install -y curl zip unzip wget python3 git python3-setuptools python3-pip maven jq build-essential file xxd gcc-mingw-w64-i686-win32 wine wine64 xvfb imagemagick gcc-mingw-w64-i686 mingw-w64-tools autoconf automake libtool make clang-tidy clang-format tmux screen gdb gdb-mingw-w64 gdb-mingw-w64-target nodejs npm xdotool openjdk-21-jdk maven iputils-ping netcat-openbsd postgresql-client ocaml ocaml-dune z3 cvc4 libgmp-dev pkg-config opam golang-go fluxbox tini nano cmake ninja-build strace
 
 RUN git config --global --add safe.directory *
 
@@ -39,36 +39,6 @@ RUN apt-get install -y --no-install-recommends \
     g++-mingw-w64-i686-posix \
     g++-mingw-w64-i686-win32
 RUN dpkg --add-architecture i386
-RUN apt-get install -y --no-install-recommends \
-    libx11-dev:i386 \
-    libxext-dev:i386 \
-    libfontconfig1-dev:i386 \
-    libfreetype-dev:i386 \
-    libxcursor-dev:i386 \
-    libxi-dev:i386 \
-    libxrender-dev:i386 \
-    libxrandr-dev:i386 \
-    libxfixes-dev:i386 \
-    libxinerama-dev:i386 \
-    libxxf86vm-dev:i386 \
-    libxcomposite-dev:i386 \
-    libxdamage-dev:i386 \
-    libxkbcommon-dev:i386 \
-    libpulse-dev:i386 \
-    libcups2-dev:i386 \
-    libgnutls28-dev:i386 \
-    libsdl2-dev:i386 \
-    libudev-dev:i386 \
-    libvulkan-dev:i386 \
-    libxml2-dev:i386 \
-    libxslt1-dev:i386 \
-    libgphoto2-dev:i386 \
-    libsane-dev:i386 \
-    libusb-1.0-0-dev:i386 \
-    libdbus-1-dev:i386 \
-    libgstreamer1.0-dev:i386 \
-    libgstreamer-plugins-base1.0-dev:i386 \
-    libosmesa6-dev:i386
 
 ENV OPAMROOT=/root/.opam
 ENV OPAMYES=1
