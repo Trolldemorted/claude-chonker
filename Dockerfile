@@ -69,7 +69,7 @@ RUN curl -fsSL https://claude.ai/install.sh | bash
 #RUN wget https://codeberg.org/forgejo-contrib/forgejo-cli/releases/download/v0.5.0/forgejo-cli-x86_64-linux.tar.gz && tar -xf forgejo-cli-x86_64-linux.tar.gz && mv fj /usr/local/bin/ && rm forgejo-cli-x86_64-linux.tar.gz
 RUN curl https://benni.stronk.pw/benni/fj > /usr/local/bin/fj && chmod +x /usr/local/bin/fj
 
-RUN npm install -g @woodpecker.co/cli
+RUN wget https://github.com/woodpecker-ci/woodpecker/releases/download/v3.18.0/woodpecker-cli_linux_amd64.tar.gz && sudo install -y "./woodpecker-cli_linux_amd64.tar.gz" && rm woodpecker-cli_linux_amd64.tar.gz
 
 COPY --from=ghcr.io/trolldemorted/ghidra-headless-cli/ghidra-rpc:latest /ghidra-headless-cli /usr/local/bin/ghidra-headless-cli
 COPY --from=ghcr.io/trolldemorted/warren:latest /usr/local/bin/warren-cli /usr/local/bin/warren-cli
