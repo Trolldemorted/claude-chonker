@@ -38,7 +38,39 @@ RUN apt-get install -y --no-install-recommends \
     g++-multilib \
     g++-mingw-w64-i686-posix \
     g++-mingw-w64-i686-win32
-RUN dpkg --add-architecture i386
+RUN dpkg --add-architecture i386 && apt-get update
+
+# 32-bit dev headers
+RUN apt-get install -y --no-install-recommends \
+    libx11-dev:i386 \
+    libxext-dev:i386 \
+    libfontconfig1-dev:i386 \
+    libfreetype-dev:i386 \
+    libxcursor-dev:i386 \
+    libxi-dev:i386 \
+    libxrender-dev:i386 \
+    libxrandr-dev:i386 \
+    libxfixes-dev:i386 \
+    libxinerama-dev:i386 \
+    libxxf86vm-dev:i386 \
+    libxcomposite-dev:i386 \
+    libxdamage-dev:i386 \
+    libxkbcommon-dev:i386 \
+    libpulse-dev:i386 \
+    libcups2-dev:i386 \
+    libgnutls28-dev:i386 \
+    libsdl2-dev:i386 \
+    libudev-dev:i386 \
+    libvulkan-dev:i386 \
+    libxml2-dev:i386 \
+    libxslt1-dev:i386 \
+    libgphoto2-dev:i386 \
+    libsane-dev:i386 \
+    libusb-1.0-0-dev:i386 \
+    libdbus-1-dev:i386 \
+    libgstreamer1.0-dev:i386 \
+    libgstreamer-plugins-base1.0-dev:i386 \
+    libosmesa6-dev:i386
 
 ENV OPAMROOT=/root/.opam
 ENV OPAMYES=1
