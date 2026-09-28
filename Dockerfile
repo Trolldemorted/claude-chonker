@@ -3,6 +3,8 @@ FROM ubuntu
 WORKDIR /workdir
 ENV PATH="/root/go/bin:/opt/flutter/bin:/opt/flutter/bin/cache/dart-sdk/bin:/usr/local/cargo/bin:$PATH:/root/.local/bin"
 ENV IS_SANDBOX=1
+ENV LANG=C.utf8
+ENV LC_CTYPE=C.utf8
 ENV GOPATH=/root/go
 RUN echo 'alias c="claude --dangerously-skip-permissions"' >> /root/.bashrc
 
