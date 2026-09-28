@@ -14,7 +14,7 @@ RUN pip3 install --break-system-packages imagehash
 
 RUN git config --global --add safe.directory *
 
-#RUN echo "set -g mouse on" >> /root/.tmux.conf
+RUN echo "set -g mouse on" >> /root/.tmux.conf
 RUN git config --global --add safe.directory /workdir
 
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
