@@ -20,7 +20,7 @@ RUN git config --global --add safe.directory /workdir
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 RUN echo 'source $HOME/.cargo/env' >> /root/.bashrc
 ENV PATH="/usr/local/cargo/bin:/root/.cargo/bin:/root/.local/bin:${PATH}"
-RUN rustup component add rustfmt clippy
+RUN rustup component add rustfmt clippy rust-analyzer
 
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
@@ -96,6 +96,21 @@ RUN opam switch create sail-release ocaml-system \
  && opam clean -a -c
 
 RUN echo 'eval $(opam env --switch=sail --set-switch)' >> /root/.bashrc
+
+# Eclipse JDT Language Server, required by the jdtls-lsp Claude Code plugin.
+# The plugin is only a bridge; it execs whatever `jdtls` is on PATH.
+ARG JDTLS_VERSION=1.60.0
+ARG JDTLS_BUILD=202606262232
+ARG JDTLS_URL=https://download.eclipse.org/jdtls/milestones/${JDTLS_VERSION}
+RUN curl -fsSL -o /tmp/jdtls.tar.gz \
+        "${JDTLS_URL}/jdt-language-server-${JDTLS_VERSION}-${JDTLS_BUILD}.tar.gz" \
+    && curl -fsSL -o /tmp/jdtls.sha256 \
+        "${JDTLS_URL}/jdt-language-server-${JDTLS_VERSION}-${JDTLS_BUILD}.tar.gz.sha256" \
+    && echo "$(awk '{print $1}' /tmp/jdtls.sha256)  /tmp/jdtls.tar.gz" | sha256sum -c - \
+    && mkdir -p /opt/jdtls \
+    && tar xzf /tmp/jdtls.tar.gz -C /opt/jdtls \
+    && ln -s /opt/jdtls/bin/jdtls /usr/local/bin/jdtls \
+    && rm -f /tmp/jdtls.tar.gz /tmp/jdtls.sha256
 
 # Install Claude
 RUN curl -fsSL https://claude.ai/install.sh | bash
