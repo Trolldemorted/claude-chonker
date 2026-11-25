@@ -75,6 +75,12 @@ RUN apt-get install -y --no-install-recommends \
     libgstreamer-plugins-base1.0-dev:i386 \
     libosmesa6-dev:i386
 
+# L4Re stuff
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+      liburi-perl libgit-repository-perl libxml-parser-perl \
+      libc6-dev-i386 libncurses-dev gawk device-tree-compiler \
+      xorriso mtools dialog expect qemu-system-x86
+
 ENV OPAMROOT=/root/.opam
 ENV OPAMYES=1
 # Put the switch's bin ahead of /usr/bin so its dune (3.24.x) shadows apt's 3.20.2.
